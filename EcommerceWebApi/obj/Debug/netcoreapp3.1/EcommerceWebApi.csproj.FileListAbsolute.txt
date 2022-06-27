@@ -67,3 +67,4 @@ C:\Users\Pratik\source\repos\EcommerceWebApi\EcommerceWebApi\bin\Debug\netcoreap
 C:\Users\Pratik\source\repos\EcommerceWebApi\EcommerceWebApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Pratik\source\repos\EcommerceWebApi\EcommerceWebApi\obj\Debug\netcoreapp3.1\EcommerceWebApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Pratik\source\repos\EcommerceWebApi\EcommerceWebApi\obj\Debug\netcoreapp3.1\EcommerceWebApi.csproj.AssemblyReference.cache
+C:\Users\Pratik\source\repos\EcommerceWebApi\EcommerceWebApi\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
