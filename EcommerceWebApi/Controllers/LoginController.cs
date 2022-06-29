@@ -1,4 +1,5 @@
-﻿using EcommerceWebApi.Models;
+﻿using EcommerceWebApi.Interfaces;
+using EcommerceWebApi.Models;
 using EcommerceWebApi.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,30 +15,41 @@ namespace EcommerceWebApi.Controllers
     public class LoginController : ControllerBase
     {
         EcommerceContext db;
-        public LoginController(EcommerceContext _db)
+        IJWTManagerRepository iJWTManagerRepository;
+        public LoginController(EcommerceContext _db, IJWTManagerRepository _iJWTManagerRepository)
         {
             db = _db;
+            iJWTManagerRepository = _iJWTManagerRepository;
         }
 
         [HttpPost]
         [Route("login")]
-        public bool Login(LoginViewModel loginViewModel)
+        public IActionResult Login(LoginViewModel loginViewModel)
         {
-            if (db.TableLogins.Any(x => x.Username == loginViewModel.Username && x.Passwordd == loginViewModel.Passwordd))
+            var token = iJWTManagerRepository.Authenicate(loginViewModel, false);
+            if (token == null)
             {
-                return true;
+                return Unauthorized();
             }
-            return false;
+            return Ok(token);
         }
         [HttpPost]
         [Route("register")]
-        public void Register(RegisterViewModel registerViewModel)
+        public IActionResult Register(RegisterViewModel registerViewModel)
         {
-            TableLogin tblLogin = new TableLogin();
-            tblLogin.Username = registerViewModel.Username;
-            tblLogin.Passwordd = registerViewModel.Passwordd;
-            db.TableLogins.Add(tblLogin);
-            db.SaveChanges();
+            LoginViewModel login = new LoginViewModel();
+            login.Username = registerViewModel.Username;
+            login.Passwordd = registerViewModel.Passwordd;
+            var token = iJWTManagerRepository.Authenicate(login, true);
+            if (token.IsUserExits)
+            {
+                return Ok("User already exists");
+            }
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(token);
         }
     }
 }
